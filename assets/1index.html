@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Jogo de Adivinhação</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #game {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      color: #555;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      width: 50%;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 12px 24px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #restartButton {
+      display: none;
+      margin-top: 20px;
+      background-color: #28a745;
+    }
+
+    #feedback {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="game">
+    <h1>Adivinhe o Número!</h1>
+    <p>Tente adivinhar um número entre 1 e 100.</p>
+    <input type="number" id="guess" min="1" max="100">
+    <button onclick="checkGuess()">Adivinhar!</button>
+    <button id="restartButton" onclick="restartGame()">Reiniciar Jogo</button>
+    <div id="feedback"></div>
+  </div>
+
+  <script>
+    let secretNumber = Math.floor(Math.random() * 100) + 1;
+    const feedback = document.getElementById('feedback');
+    const guessInput = document.getElementById('guess');
+    const guessButton = document.querySelector('button');
+    const restartButton = document.getElementById('restartButton');
+
+    const successMessages = [
+      'Incrível! Você acertou!',
+      'Parabéns, você é um adivinhador nato!',
+      'Acertou em cheio, muito bem!',
+      'Isso aí! Você conseguiu!',
+      'Fantástico! Você acertou o número!'
+    ];
+
+    function checkGuess() {
+      const guess = guessInput.value;
+      if (guess == secretNumber) {
+        const randomSuccessMessage = successMessages[Math.floor(Math.random() * successMessages.length)];
+        feedback.textContent = randomSuccessMessage;
+        feedback.style.color = '#28a745';
+        guessInput.disabled = true;
+        guessButton.disabled = true;
+        restartButton.style.display = 'block';
+      } else if (guess < secretNumber) {
+        feedback.textContent = 'O número é maior. Tente novamente!';
+        feedback.style.color = '#dc3545';
+      } else {
+        feedback.textContent = 'O número é menor. Tente novamente!';
+        feedback.style.color = '#dc3545';
+      }
+    }
+
+    function restartGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      feedback.textContent = '';
+      guessInput.disabled = false;
+      guessButton.disabled = false;
+      guessInput.value = '';
+      guessInput.focus();
+      restartButton.style.display = 'none';
+    }
+  </script>
+</body>
+
+</html>
